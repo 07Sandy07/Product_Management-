@@ -1,0 +1,44 @@
+<!-- views/categories.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categories</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <h1>Categories</h1>
+    <form action="/categories/add" method="POST">
+        <input type="text" name="name" placeholder="New Category Name" required>
+        <button type="submit">Add Category</button>
+    </form>
+    <table>
+        <thead>
+            <tr>
+                <th>Category ID</th>
+                <th>Category Name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% categories.forEach(category => { %>
+                <tr>
+                    <td><%= category.id %></td>
+                    <td>
+                        <form action="/categories/update/<%= category.id %>" method="POST" style="display:inline;">
+                            <input type="text" name="name" value="<%= category.name %>" required>
+                            <button type="submit">Update</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form action="/categories/delete/<%= category.id %>" method="POST" style="display:inline;">
+                            <button type="submit">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+</body>
+</html>

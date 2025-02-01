@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <h1>Products</h1>
+    
+    <!-- Add Product Form -->
+    <form action="/products/add" method="POST">
+        <input type="text" name="name" placeholder="New Product Name" required>
+        <select name="category_id" required>
+            <option value="">Select Category</option>
+            <% categories.forEach(category => { %>
+                <option value="<%= category.id %>"><%= category.name %></option>
+            <% }); %>
+        </select>
+        <button type="submit">Add Product</button>
+    </form>
+
+    <!-- Product Table -->
+    <table>
+        <thead>
+            <tr>
+                <th>Product ID</th>
+                <th>Product Name</th>
+                <th>Category Name</th>
+                <th>Category ID</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% products.forEach(product => { %>
+                <tr>
+                    <td><%= product.id %></td> <!-- Product ID -->
+                    
+                    <td>
+                        <form action="/products/update/<%= product.id %>" method="POST" style="display:inline;">
+                            <input type="text" name="name" value="<%= product.product_name %>" required>
+                            
+                            <select name="category_id" required>
+                                <% categories.forEach(category => { %>
+                                    <option value="<%= category.id %>" 
+                                        <%= product.category_id === category.id ? 'selected' : '' %>>
+                                        <%= category.name %>
+                                    </option>
+                                <% }); %>
+                            </select>
+                            
+                            <button type="submit">Update</button>
+                        </form>
+                    </td>
+                    
+                    <td><%= product.category_name %></td> <!-- Category Name -->
+                    <td><%= product.category_id %></td> <!-- Category ID -->
+                    
+                    <td>
+                        <form action="/products/delete/<%= product.id %>" method="POST" style="display:inline;">
+                            <button type="submit">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+</body>
+</html>
